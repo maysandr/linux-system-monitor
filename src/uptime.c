@@ -2,16 +2,19 @@
 
 #include <stdio.h>
 
-int read_uptime_seconds(long *uptime_seconds) {
+int read_uptime_seconds(long *uptime_seconds)
+{
     FILE *file;
     double uptime;
 
     file = fopen("/proc/uptime", "r");
-    if (!file) {
+    if (!file)
+    {
         return -1;
     }
 
-    if (fscanf(file, "%lf", &uptime) != 1) {
+    if (fscanf(file, "%lf", &uptime) != 1)
+    {
         fclose(file);
         return -1;
     }
@@ -22,7 +25,8 @@ int read_uptime_seconds(long *uptime_seconds) {
     return 0;
 }
 
-void format_uptime(long uptime_seconds, char *buffer, int buffer_size) {
+void format_uptime(long uptime_seconds, char *buffer, int buffer_size)
+{
     long hours;
     long minutes;
     long seconds;
