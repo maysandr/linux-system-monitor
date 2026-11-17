@@ -1,0 +1,21 @@
+﻿name: Linux build and smoke test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile the monitor
+        run: gcc -std=gnu11 -O2 -Wall -Wextra -Iinclude src/*.c -o monitor
+      - name: Run smoke test
+        run: |
+          set +e
+          timeout 4s stdbuf -oL ./monitor > output.txt
+          result=$?
+          set -e
+          test "$result" -eq 124
+          grep -q "Linux System Monitor" output.txt
